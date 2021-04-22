@@ -1,9 +1,21 @@
 require('dotenv').config();
 
 const Discord = require('discord.js');
-const Command = require('./commands.js');
+
+const FS = require('fs');
 
 const client = new Discord.Client({partials: [ "MESSAGE", "CHANNEL", "REACTION" ]});
+
+client.commands = new Discord.Collection();
+
+const commandFiles = FS.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    console.log('setting up command: ', command.name);
+    client.commands.set(command.name, command);
+}
+
+
 
 const prefix = "--";
 
@@ -21,9 +33,16 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).split(/\s+/);
     const command = args.shift().toLowerCase();
 
-    const cmd = new Command(command);
-
-    cmd.execute(message);
+    switch(command) {
+        default:
+            return;
+        case "hi":
+            client.commands.get('hi').execute(message, args);
+            return;
+        case "reactionrole":
+            client.commands.get('reactionrole').execute(message, args, Discord, client);
+            return;
+    }
 });
 
 // This has to be at the end of the file!
