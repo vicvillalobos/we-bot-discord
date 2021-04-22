@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const Discord = require('discord.js');
-const Command = require('./commands');
+const Command = require('./commands.js');
 
 const client = new Discord.Client({partials: [ "MESSAGE", "CHANNEL", "REACTION" ]});
 
@@ -22,7 +22,7 @@ client.on('message', message => {
     const command = args.shift().toLowerCase();
 
     const cmd = new Command(command);
-    
+
     cmd.execute(message);
 });
 
