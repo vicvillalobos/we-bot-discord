@@ -22,7 +22,7 @@ client.on('message', message => {
     const command = args.shift().toLowerCase();
 
     const cmd = new Command(command);
-
+    
     cmd.execute(message);
 });
 
