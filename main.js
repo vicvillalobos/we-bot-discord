@@ -2,7 +2,8 @@ const Discord = require('discord.js');
 
 const client = new Discord.Client();
 
-const token = process.env.discordtoken;
+const token = process.env.DISCORD_TOKEN;
+console.log("DISCORD_TOKEN: ",token);
 // https://discord.com/oauth2/authorize?client_id=834863589365907476&scope=bot&permissions=8589934591
 
 client.once('ready', () => {
